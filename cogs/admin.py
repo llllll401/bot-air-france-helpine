@@ -58,7 +58,7 @@ class Admin(commands.Cog):
         await interaction.followup.send(f"✅ {len(synced)} commandes sync globalement.", ephemeral=True)
 
     @app_commands.command(name="bot-info", description="Infos du bot")
-    async def bot_info(self, interaction: discord.Interaction):
+    async def infos_bot(self, interaction: discord.Interaction):
         embed = af_embed(
             title="✈️ Air France Helpine - Bot Info",
             description=(
