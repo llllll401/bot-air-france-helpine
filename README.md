@@ -70,22 +70,40 @@ Langage choisi : **Python** (`discord.py` + `aiosqlite`) — async, léger, parf
 - Token bot Discord avec intents privilégiés **Message Content** + **Server Members** activés sur https://discord.com/developers/applications → Bot
 
 ### 2. Config
+Tu as **2 options** (priorité : `.env` > `config.json` > défaut codé) :
+
+**Option A - .env (recommandé pour token) :**
 ```bash
 cp .env.example .env
 # édite .env et mets ton DISCORD_TOKEN
 nano .env
 ```
 
+**Option B - config.json :**
+```bash
+cp config.example.json config.json
+# édite config.json
+nano config.json
+```
 `.env` minimal :
 ```env
 DISCORD_TOKEN=MTxxxx...
-# les IDs sont déjà bons par défaut, override seulement si besoin
 GUILD_ID=1553129363858530465
 TICKET_CATEGORY_ID=1560529185880154263
 STAFF_ROLE_ID=1564261898935992382
 LOG_CHANNEL_ID=  # optionnel
 ANNOUNCE_CHANNEL_ID=
 ```
+`config.json` minimal :
+```json
+{
+  "DISCORD_TOKEN": "MTxxxx...",
+  "GUILD_ID": "1553129363858530465",
+  "TICKET_CATEGORY_ID": "1560529185880154263",
+  "STAFF_ROLE_ID": "1564261898935992382"
+}
+```
+Tu peux mixer : mettre le token en `.env` et les IDs en `config.json` — le bot merge tout et log `Config source : ...` au démarrage.
 
 ### 3. Lancement local
 ```bash
