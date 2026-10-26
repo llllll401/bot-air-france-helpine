@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
-if [ ! -f .env ]; then
-  echo "⚠️  .env manquant -> copie .env.example"
-  cp .env.example .env
-  echo "Edite .env avec ton DISCORD_TOKEN puis relance ./run.sh"
+if [ ! -f config.json ]; then
+  echo "⚠️  config.json manquant"
+  echo "Crée ton config.json à partir du modèle fourni et mets ton DISCORD_TOKEN"
+  cat config.json 2>/dev/null || echo "Aucun modèle trouvé"
   exit 1
 fi
 # venv auto si pas docker

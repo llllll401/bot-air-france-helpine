@@ -3,8 +3,8 @@ services:
     build: .
     container_name: airfrance-helpine
     restart: unless-stopped
-    env_file: .env
     volumes:
+      - ./config.json:/app/config.json:ro
       - ./data:/app/data
       - ./logs:/app/logs
     logging:

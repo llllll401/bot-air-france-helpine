@@ -36,6 +36,7 @@ class HelpineBot(commands.Bot):
         self.db = db
 
     async def setup_hook(self):
+        log.info(f"Config source : {config.log_config_source()} | Guild={config.GUILD_ID} Cat={config.TICKET_CATEGORY_ID} Staff={config.STAFF_ROLE_ID}")
         log.info("Initialisation DB...")
         await self.db.init()
         log.info("Chargement cogs...")
@@ -136,8 +137,8 @@ bot = HelpineBot()
 
 # --- Lancement ---
 async def main():
-    if not config.DISCORD_TOKEN:
-        log.error("DISCORD_TOKEN manquant ! Crée un .env à partir de .env.example")
+    if not config.DISCORD_TOKEN or config.DISCORD_TOKEN == "ton_token_ici":
+        log.error("DISCORD_TOKEN manquant ! Mets-le dans config.json")
         sys.exit(1)
     async with bot:
         await bot.start(config.DISCORD_TOKEN)
