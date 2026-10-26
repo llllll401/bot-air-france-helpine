@@ -70,40 +70,27 @@ Langage choisi : **Python** (`discord.py` + `aiosqlite`) — async, léger, parf
 - Token bot Discord avec intents privilégiés **Message Content** + **Server Members** activés sur https://discord.com/developers/applications → Bot
 
 ### 2. Config
-Tu as **2 options** (priorité : `.env` > `config.json` > défaut codé) :
-
-**Option A - .env (recommandé pour token) :**
+Edite simplement `config.json` (tout est dedans, plus de `.env`) :
 ```bash
-cp .env.example .env
-# édite .env et mets ton DISCORD_TOKEN
-nano .env
-```
-
-**Option B - config.json :**
-```bash
-cp config.example.json config.json
-# édite config.json
 nano config.json
 ```
-`.env` minimal :
-```env
-DISCORD_TOKEN=MTxxxx...
-GUILD_ID=1553129363858530465
-TICKET_CATEGORY_ID=1560529185880154263
-STAFF_ROLE_ID=1564261898935992382
-LOG_CHANNEL_ID=  # optionnel
-ANNOUNCE_CHANNEL_ID=
-```
-`config.json` minimal :
+Exemple `config.json` :
 ```json
 {
   "DISCORD_TOKEN": "MTxxxx...",
   "GUILD_ID": "1553129363858530465",
   "TICKET_CATEGORY_ID": "1560529185880154263",
-  "STAFF_ROLE_ID": "1564261898935992382"
+  "STAFF_ROLE_ID": "1564261898935992382",
+  "LOG_CHANNEL_ID": null,
+  "ANNOUNCE_CHANNEL_ID": null,
+  "TICKET_COOLDOWN_SECONDS": 300,
+  "AUTO_CLOSE_DAYS": 7,
+  "TRANSCRIPT_COMPRESSION": true,
+  "LOG_LEVEL": "INFO",
+  "BOT_ACTIVITY": "MP pour ouvrir un ticket ✈️"
 }
 ```
-Tu peux mixer : mettre le token en `.env` et les IDs en `config.json` — le bot merge tout et log `Config source : ...` au démarrage.
+Le bot log `Config source : config.json` au démarrage.
 
 ### 3. Lancement local
 ```bash
@@ -133,7 +120,7 @@ Vérifie que le bot est bien sur **1 seul serveur** (celui de l'ID) et que la ca
 
 ```
 bot.py              # Entrée, intents, setup_hook + views persistantes
-config.py           # Env + constantes Air France
+config.py           # Charge config.json + constantes Air France
 database.py         # SQLite async (tickets, messages, bans, config)
 cogs/
   tickets.py        # Coeur : relay DM↔salon, création, fermeture, transcript
@@ -180,7 +167,7 @@ data/
 
 ## 🆘 Debug
 
-- Logs `INFO` par défaut (`LOG_LEVEL=INFO` dans .env)
+- Logs `INFO` par défaut (`LOG_LEVEL=INFO` dans `config.json`)
 - Vérifie catégorie/role IDs : `/bot-info` ou logs au démarrage
 - Si bouton ne répond plus après reboot : normal si ID salon changé, mais `add_view` garantit la survie sinon
 

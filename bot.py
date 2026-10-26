@@ -138,7 +138,7 @@ bot = HelpineBot()
 # --- Lancement ---
 async def main():
     if not config.DISCORD_TOKEN or config.DISCORD_TOKEN == "ton_token_ici":
-        log.error("DISCORD_TOKEN manquant ! Mets-le dans .env ou config.json (voir .env.example / config.example.json)")
+        log.error("DISCORD_TOKEN manquant ! Mets-le dans config.json")
         sys.exit(1)
     async with bot:
         await bot.start(config.DISCORD_TOKEN)

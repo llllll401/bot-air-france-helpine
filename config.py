@@ -1,27 +1,21 @@
-import os
 import json
 from pathlib import Path
-from dotenv import load_dotenv
 
-load_dotenv()
-
-# --- Charge config.json si présent (permet .env + config.json) ---
-# Priorité : 1) variable d'environnement (.env) 2) config.json 3) défaut codé en dur
+# --- Charge uniquement config.json (plus de .env) ---
 _JSON_PATH = Path("config.json")
 _JSON_CONFIG: dict = {}
+
 if _JSON_PATH.exists():
     try:
         with _JSON_PATH.open("r", encoding="utf-8") as f:
             _JSON_CONFIG = json.load(f)
     except Exception as e:
-        print(f"[config] ⚠️ Impossible de lire config.json : {e} — on ignore et on utilise .env/défauts")
+        print(f"[config] ⚠️ Impossible de lire config.json : {e}")
+        _JSON_CONFIG = {}
+else:
+    print("[config] ⚠️ config.json introuvable — utilisation des défauts codés")
 
 def _get(key: str, default=None):
-    """Récupère une valeur avec priorité ENV > JSON > défaut"""
-    # ENV a priorité (permet override docker/heroku)
-    env_val = os.getenv(key)
-    if env_val not in (None, ""):
-        return env_val
     if key in _JSON_CONFIG and _JSON_CONFIG[key] not in (None, ""):
         return _JSON_CONFIG[key]
     return default
@@ -82,13 +76,7 @@ TRANSCRIPT_DIR = "data/transcripts"
 # --- Messages ---
 FOOTER_TEXT = "Air France Helpine • Système de tickets MP"
 
-# --- Debug au lancement (sans leak token) ---
 def log_config_source():
-    src = []
     if _JSON_PATH.exists():
-        src.append("config.json")
-    if Path(".env").exists():
-        src.append(".env")
-    if not src:
-        src.append("défauts codés")
-    return ", ".join(src)
+        return "config.json"
+    return "défauts codés"
